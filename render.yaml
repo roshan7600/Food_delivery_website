@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: clicktoeat
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn Food_delivery_website.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Food_delivery_website.settings
+      - key: PYTHON_VERSION
+        value: 3.11
