@@ -1,0 +1,43 @@
+# === Python general ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# === Virtual environment ===
+venv/
+env/
+
+# === Django ===
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# === VS Code / IDEs ===
+.vscode/
+.idea/
+
+# === OS-specific ===
+.DS_Store
+Thumbs.db
+
+# === Secrets (best practice) ===
+.env
+
+# === Byte-compiled / packages ===
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# === Gunicorn / Deployment ===
+gunicorn.pid
+
+# === Node/JS (if using npm/yarn later) ===
+node_modules/
