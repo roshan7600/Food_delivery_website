@@ -17,12 +17,18 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yidv%+v80cle*5enbekrjk#x!(axvg44tj$a&z%sh9^tx)q&i$'
+# SECRET_KEY = 'django-insecure-yidv%+v80cle*5enbekrjk#x!(axvg44tj$a&z%sh9^tx)q&i$'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-key')  # add for deployment
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False #add for deployment
 
-ALLOWED_HOSTS = []
+
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['food-delivery-website-rntw.onrender.com'] # add for deployment
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -36,6 +42,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware', #add for deployment
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -110,6 +118,7 @@ STATIC_URL = '/static/'
 # Media files (uploaded by user/admin)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # add for deployment
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
