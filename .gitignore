@@ -41,3 +41,7 @@ gunicorn.pid
 
 # === Node/JS (if using npm/yarn later) ===
 node_modules/
+
+
+git add -f media/
+git commit -m "Include media folder for deployment"
