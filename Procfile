@@ -1,1 +1,1 @@
-web: gunicorn Food_delivery_website.wsgi:application
+web: gunicorn clicktoeat.wsgi:application
