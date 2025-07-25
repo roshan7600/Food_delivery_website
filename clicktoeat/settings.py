@@ -75,7 +75,10 @@ ROOT_URLCONF = 'clicktoeat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/ "templates"],  # You can add a path here for custom template folders if needed
+        # 'DIRS': [BASE_DIR/ "templates"], 
+        # You can add a path here for custom template folders if needed
+        'DIRS': [BASE_DIR / 'foodapp' / 'templates'],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
