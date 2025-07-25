@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% block title %}My Orders{% endblock %}
+{% block content %}
+<style>
+    .orders-section {
+        max-width: 700px;
+        margin: 40px auto 0 auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 18px rgba(255, 152, 0, 0.10);
+        padding: 2rem 1rem 1.5rem 1rem;
+    }
+    .orders-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #ff9800;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+    .order-card {
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(255, 152, 0, 0.07);
+        margin-bottom: 1.2rem;
+        padding: 1.1rem 1rem 0.7rem 1rem;
+        background: #fffbe6;
+        border-left: 5px solid #ff9800;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .order-card:hover {
+        box-shadow: 0 8px 24px rgba(255, 152, 0, 0.13);
+        transform: translateY(-2px) scale(1.01);
+    }
+    .order-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.7rem;
+    }
+    .order-id {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #ff5722;
+    }
+    .order-date {
+        font-size: 0.95rem;
+        color: #888;
+    }
+    .order-status {
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 0.2em 0.9em;
+        border-radius: 1em;
+        margin-left: 0.7rem;
+    }
+    .order-status-pending {
+        background: #ffe066;
+        color: #856404;
+    }
+    .order-status-delivered,
+    .order-status-success {
+        background: #d4edda;
+        color: #155724;
+    }
+    .order-status-cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .order-status-other {
+        background: #cce5ff;
+        color: #004085;
+    }
+    .order-items-list {
+        margin: 0 0 0.5rem 0;
+        padding: 0;
+        list-style: none;
+    }
+    .order-item-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .order-item-img {
+        width: 38px;
+        height: 38px;
+        object-fit: cover;
+        border-radius: 7px;
+        margin-right: 10px;
+        border: 1px solid #eee;
+        background: #fafafa;
+    }
+    .order-item-name {
+        font-weight: 500;
+        font-size: 1rem;
+        color: #222;
+    }
+    .order-item-qty {
+        font-size: 0.93rem;
+        color: #888;
+        margin-left: 7px;
+    }
+    .order-item-price {
+        font-weight: 500;
+        color: #28a745;
+        font-size: 0.98rem;
+        margin-left: auto;
+    }
+    .order-total {
+        font-size: 1.08rem;
+        font-weight: 700;
+        color: #ff9800;
+        text-align: right;
+        margin-top: 0.5rem;
+    }
+    .order-actions {
+        text-align: right;
+        margin-top: 0.3rem;
+    }
+    .order-cancel-btn,
+    .order-confirm-btn {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 0.3rem 1.1rem;
+        margin-left: 0.3rem;
+        border: none;
+        font-size: 0.97rem;
+    }
+    .order-cancel-btn {
+        background: #ff5252;
+        color: #fff;
+    }
+    .order-cancel-btn:hover {
+        background: #ff9800;
+        color: #fff;
+    }
+    .order-confirm-btn {
+        background: #28a745;
+        color: #fff;
+    }
+    .order-confirm-btn:hover {
+        background: #ff9800;
+        color: #fff;
+    }
+    @media (max-width: 600px) {
+        .orders-section {
+            padding: 0.7rem 0.1rem 1rem 0.1rem;
+        }
+        .orders-title {
+            font-size: 1.2rem;
+        }
+        .order-card {
+            padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+        }
+    }
+</style>
+
+<div class="orders-section">
+    <div class="orders-title">
+        <i class="bi bi-bag-check"></i> My Orders
+    </div>
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header-row">
+                <div>
+                    <span class="order-id">#{{ order.id }}</span>
+                    <span class="order-date ms-2">
+                        <i class="bi bi-calendar-event"></i>
+                        {{ order.created_at|date:"d M Y, H:i" }}
+                    </span>
+                </div>
+                <span class="order-status
+                        {% if order.status == 'Pending' %}order-status-pending
+                        {% elif order.status == 'Delivered' or order.status == 'Success' %}order-status-delivered
+                        {% elif order.status == 'Cancelled' %}order-status-cancelled
+                        {% else %}order-status-other{% endif %}">
+                    {{ order.status }}
+                </span>
+            </div>
+            <ul class="order-items-list">
+                {% for item in order.items.all %}
+                <li class="order-item-row">
+                    {% if item.food_item.image %}
+                    <img src="{{ item.food_item.image.url }}" class="order-item-img" alt="{{ item.food_item.name }}">
+                    {% else %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" class="order-item-img"
+                        alt="{{ item.food_item.name }}">
+                    {% endif %}
+                    <span class="order-item-name">{{ item.food_item.name }}</span>
+                    <span class="order-item-qty">×{{ item.quantity }}</span>
+                    <span class="order-item-price">₹{{ item.price }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="order-total">
+                <i class="bi bi-currency-rupee"></i> {{ order.total_price }}
+            </div>
+            {% if order.status == 'Pending' or order.status == 'Success' %}
+            <div class="order-actions">
+                <form method="post" action="{% url 'cancel_order' order.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="order-cancel-btn">Cancel</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="text-center mt-5">
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" width="90" class="mb-3" alt="No Orders">
+        <p class="text-muted fs-5">You haven’t placed any orders yet.</p>
+        <a href="{% url 'menu' %}" class="btn btn-warning btn-lg mt-2">Order Now</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Bootstrap Icons CDN for icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}

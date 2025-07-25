@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+{% block title %}ClickToEat - Home{% endblock %}
+{% block content %}
+<style>
+    body {
+        background: 
+            linear-gradient(rgba(136, 201, 231, 0.6), rgba(97, 114, 108, 0.6)),
+            url('https://images.unsplash.com/photo-1613141412047-03194bbee27c?auto=format&fit=crop&w=1740&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+
+    .navbar-custom {
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            border-radius: 20px 20px 20px 20px;
+            margin: 0px 15px;
+            padding: 0.2rem 0;
+            backdrop-filter: blur(10px);
+    }
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link,
+    .navbar-custom .dropdown-toggle {
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .navbar-custom .nav-link.active,
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .dropdown-item:hover {
+        color: #ff9800 !important;
+        background: #fff3e0 !important;
+        border-radius: 8px;
+    }
+
+    .navbar-custom .dropdown-menu {
+        border-radius: 12px;
+        box-shadow: 0 4px 18px rgba(255,87,34,0.10);
+        border: none;
+    }
+
+    .navbar-custom .dropdown-item {
+        color: #ff5722;
+        font-weight: 500;
+    }
+
+    .navbar-custom .dropdown-item.text-danger {
+        color: #d32f2f !important;
+    }
+
+    .navbar-toggler {
+        border: none;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    .btn-search {
+        background: #fff;
+        color: #ff5722;
+        border: 1px solid #ff9800;
+        font-weight: 600;
+        border-radius: 20px;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-search:hover {
+        background: #ff9800;
+        color: #fff;
+    }
+
+    /* Carousel styles */
+    .carousel-container {
+        width: 100%;
+        height: 60vh;
+        overflow: hidden;
+    }
+
+    .carousel-item img {
+        object-fit: cover;
+        width: 100%;
+        height: 60vh;
+        transition: transform 0.5s;
+    }
+
+    .carousel-item img:hover {
+        transform: scale(1.03);
+    }
+
+    .carousel-indicators [data-bs-target] {
+        background-color: #ff9800;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin: 0 6px;
+    }
+
+    .carousel-indicators .active {
+        background-color: #ff5722;
+    }
+
+    .carousel-caption {
+        background: rgba(0,0,0,0.45);
+        border-radius: 8px;
+        padding: 12px 24px;
+        color: #fff;
+        bottom: 40px;
+    }
+
+    /* Improved Product Card Styles */
+    .product-card {
+        border-radius: 18px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 8px 24px rgba(255,152,0,0.13);
+        transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        background: linear-gradient(135deg, #fffbe6 70%, #ffe0b2 100%);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 16px 40px rgba(255,152,0,0.18);
+        background: linear-gradient(135deg, #fffde7 60%, #ffd180 100%);
+    }
+
+    .product-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        border-radius: 18px 18px 0 0;
+        background: #f8f9fa;
+        transition: transform 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+
+    .product-card:hover .card-img-top {
+        transform: scale(1.06) rotate(-2deg);
+    }
+
+    .product-card .card-body {
+        padding: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-card .card-title {
+        font-size: 1.22rem;
+        font-weight: 700;
+        color: #ff5722;
+    }
+
+    .product-card .card-text {
+        font-size: 0.98rem;
+        color: #555;
+    }
+
+    .price-tag {
+        font-size: 1.13rem;
+        font-weight: 600;
+        color: #388e3c;
+        margin-bottom: 0.7rem;
+    }
+
+    .add-to-cart-form .input-group {
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(255,152,0,0.07);
+    }
+
+    .add-to-cart-form input[type="number"] {
+        border-radius: 14px 0 0 14px;
+        border: 1px solid #ff9800;
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .add-to-cart-form button {
+        border-radius: 0 14px 14px 0;
+        background: linear-gradient(90deg, #ff9800 60%, #ff5722 100%);
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.18s;
+        box-shadow: 0 2px 8px rgba(255,152,0,0.13);
+    }
+
+    .add-to-cart-form button:hover {
+        background: linear-gradient(90deg, #ff5722 60%, #ff9800 100%);
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(255,87,34,0.13);
+        transform: scale(1.06);
+    }
+</style>
+
+<!-- Carousel Section -->
+<div class="carousel-container mb-5">
+    <div id="foodCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://plus.unsplash.com/premium_photo-1673108852141-e8c3c22a4a22?q=80&w=1170&auto=format&fit=crop" alt="Delicious Food">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Delicious Authentic Food</h5>
+                    <p>Experience authentic Indian flavors at your doorstep.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1169&auto=format&fit=crop" alt="Fresh Sushi">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Fresh Sushi Rolls</h5>
+                    <p>Enjoy premium sushi with fast and safe delivery.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=60" alt="Healthy Salads">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Healthy Salads</h5>
+                    <p>Order fresh, healthy, and tasty salads anytime.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?q=80&w=1170&auto=format&fit=crop" alt="Indian Cuisine">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Authentic Indian Cuisine</h5>
+                    <p>Spicy, flavorful, and delivered with love.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#foodCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#foodCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<!-- Products Section -->
+<div class="container mt-4">
+    <h3 class="mt-4 mb-3 fw-bold" style="color:#388e3c;">Our Products</h3>
+    <div class="row g-4">
+        {% for item in food_items %}
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card product-card h-100">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                {% else %}
+                <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" class="card-img-top" alt="{{ item.name }}">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text mb-2">{{ item.description|truncatechars:80 }}</p>
+                    <div class="mb-2 price-tag">₹{{ item.price }}</div>
+                    <form method="POST" action="{% url 'add_to_cart' item.id %}" class="add-to-cart-form mt-auto" data-item-id="{{ item.id }}">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="number" name="quantity" value="1" min="1" class="form-control">
+                            <button type="submit" class="btn"><i class="bi bi-cart-plus"></i> Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center text-muted">No products available.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="bi bi-cart-check-fill"></i> Added to cart successfully!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function() {
+    $('.add-to-cart-form').on('submit', function(e) {
+        e.preventDefault();
+        var $form = $(this);
+        var url = $form.attr('action');
+        var data = $form.serialize();
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            headers: {'X-CSRFToken': $form.find('input[name="csrfmiddlewaretoken"]').val()},
+            success: function(response) {
+                var toast = new bootstrap.Toast(document.getElementById('cartToast'));
+                toast.show();
+            },
+            error: function() {
+                alert('Failed to add to cart. Please try again.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}Add Food{% endblock %}
+{% block content %}
+<style>
+    body {
+        min-height: 100vh;
+        /* Attractive food background image */
+        background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80') center center / cover no-repeat fixed;
+    }
+    .addfood-form-container {
+        max-width: 520px;
+        margin: 48px auto 32px auto;
+        background: rgba(255,255,255,0.97);
+        border-radius: 22px;
+        box-shadow: 0 12px 40px rgba(0,200,255,0.13), 0 2px 16px rgba(0,200,255,0.08);
+        padding: 2.5rem 2rem 2rem 2rem;
+        border-left: 8px solid rgb(0, 200, 255);
+        transition: box-shadow 0.3s, border-left 0.3s;
+        animation: fadeInUp 1s cubic-bezier(.68,-0.55,.27,1.55);
+        backdrop-filter: blur(2px);
+    }
+    .addfood-form-container:hover {
+        box-shadow: 0 16px 48px rgba(0,200,255,0.18);
+        border-left: 8px solid rgb(0, 150, 255);
+    }
+    .addfood-form label {
+        font-weight: 600;
+        color: rgb(0, 150, 255);
+        margin-bottom: 0.3rem;
+        transition: color 0.2s;
+    }
+    .addfood-form input[type="text"],
+    .addfood-form input[type="number"],
+    .addfood-form textarea,
+    .addfood-form select {
+        border-radius: 10px;
+        border: 1.5px solid #e0e0e0;
+        padding: 0.6rem 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .addfood-form input:focus,
+    .addfood-form textarea:focus,
+    .addfood-form select:focus {
+        border-color: rgb(0, 200, 255);
+        box-shadow: 0 0 0 2px rgba(0,200,255,0.15);
+        outline: none;
+    }
+    .addfood-form input[type="file"] {
+        border: none;
+        margin-bottom: 1.2rem;
+    }
+    .addfood-form button[type="submit"] {
+        background: linear-gradient(90deg, rgb(0,200,255), rgb(0,255,200));
+        color: #fff;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        padding: 0.7rem 2.2rem;
+        font-size: 1.1rem;
+        box-shadow: 0 2px 8px rgba(0,200,255,0.10);
+        transition: background 0.2s, transform 0.2s;
+    }
+    .addfood-form button[type="submit"]:hover {
+        background: linear-gradient(90deg, rgb(0,150,255), rgb(0,200,255));
+        transform: translateY(-2px) scale(1.04);
+    }
+    @media (max-width: 600px) {
+        .addfood-form-container {
+            padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+            border-left-width: 4px;
+        }
+        .addfood-form button[type="submit"] {
+            width: 100%;
+            font-size: 1rem;
+        }
+    }
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(60px);}
+        100% { opacity: 1; transform: translateY(0);}
+    }
+</style>
+
+<div class="addfood-form-container animate__animated animate__fadeInDown">
+    <h3 class="mb-4 text-center" style="color:rgb(0,150,255);">Add New Food Item</h3>
+    <form method="POST" enctype="multipart/form-data" class="addfood-form">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" required>
+
+        <label for="description">Description:</label>
+        <textarea name="description" rows="3" required></textarea>
+
+        <label for="price">Price:</label>
+        <input type="number" name="price" required>
+
+        <label for="category">Category:</label>
+        <select name="category" required>
+            <option value="">-- Select Category --</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="image">Image:</label>
+        <input type="file" name="image">
+
+        <button type="submit">Add Food</button>
+    </form>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}

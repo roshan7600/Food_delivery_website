@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Update Profile</h3>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="first_name" value="{{ user.first_name }}" class="form-control mb-3" placeholder="Name">
+    <input type="email" name="email" value="{{ user.email }}" class="form-control mb-3" placeholder="Email">
+    <button type="submit" class="btn btn-success">Update</button>
+  </form>
+</div>
+{% endblock %}

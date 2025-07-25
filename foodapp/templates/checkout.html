@@ -1,0 +1,35 @@
+<!-- templates/checkout.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Checkout - ClickToEat{% endblock %}
+
+{% block content %}
+<div class="container my-5 p-4 bg-white shadow rounded" style="max-width: 700px;">
+    <h3 class="mb-4 text-success">
+        <i class="bi bi-geo-alt-fill me-2"></i>Delivery Address
+    </h3>
+
+    <form method="POST" action="{% url 'save_address' %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mobile Number</label>
+            <input type="tel" name="mobile" class="form-control" placeholder="Enter your mobile number" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Full Address</label>
+            <textarea name="address" rows="3" class="form-control" placeholder="Enter your delivery address" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-wallet2 me-2"></i>Save & Proceed to Payment
+        </button>
+    </form>
+</div>
+{% endblock %}

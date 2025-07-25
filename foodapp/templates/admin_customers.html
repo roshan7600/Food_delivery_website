@@ -1,0 +1,31 @@
+<h2>Manage Customers</h2>
+<table><h2>Manage Customers</h2>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        
+        <th>Date Joined</th>
+        <th>Actions</th>
+    </tr>
+    {% for customer in customers %}
+    <tr>
+        <td>{{ customer.username }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.date_joined }}</td>
+        <td>
+            <a href="{% url 'admin_customer_orders' customer.id %}">View Orders</a>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <th>Username</th><th>Email</th><th>Date Joined</th>
+    </tr>
+    {% for customer in customers %}
+    <tr>
+        <td>{{ customer.username }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.date_joined }}</td>
+    </tr>
+    {% endfor %}
+</table>

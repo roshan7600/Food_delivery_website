@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4">Enter Delivery Address</h2>
+
+    <!-- Show success/error messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Address Form -->
+   <form method="POST" action="{% url 'address' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="address_line" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address_line" name="address_line" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" name="city" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="pincode" class="form-label">Pincode</label>
+            <input type="text" class="form-control" id="pincode" name="pincode" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phone" name="phone" required>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" name="save_only" class="btn btn-secondary">Save Only</button>
+            <button type="submit" name="proceed" class="btn btn-primary">Proceed to Payment</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

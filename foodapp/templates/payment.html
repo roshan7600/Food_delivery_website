@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Payment - ClickToEat{% endblock %}
+
+{% block content %}
+<div class="container my-5 p-4 bg-white shadow rounded" style="max-width: 700px;">
+    <h3 class="mb-4 text-primary">
+        <i class="bi bi-credit-card me-2"></i> Dummy Payment
+    </h3>
+
+    <p class="mb-2">
+        Hello <strong>{{ user.username }}</strong>,
+    </p>
+    <p class="mb-3">
+        Your total amount is <strong>₹{{ total }}</strong>.
+    </p>
+    <p class="mb-4 text-muted">
+        This is a dummy payment gateway. No real transaction will happen.
+    </p>
+
+    <form method="post" action="{% url 'place_order' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="card" class="form-label">Card Number</label>
+            <input type="text" class="form-control" id="card" name="card" placeholder="1234 5678 9012 3456" required>
+        </div>
+        <div class="mb-3">
+            <label for="expiry" class="form-label">Expiry Date</label>
+            <input type="text" class="form-control" id="expiry" name="expiry" placeholder="MM/YY" required>
+        </div>
+        <div class="mb-3">
+            <label for="cvv" class="form-label">CVV</label>
+            <input type="password" class="form-control" id="cvv" name="cvv" placeholder="123" required>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-check-circle me-2"></i>Pay
+        </button>
+    </form>
+</div>
+{% endblock %}

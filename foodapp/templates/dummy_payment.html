@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Framer Motion -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+
+  <style>
+    body {
+      background: linear-gradient(to right, #f3f4f6, #e2e8f0);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    .payment-card {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background-color: #ffffff;
+    }
+    .payment-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    .card-icons i {
+      font-size: 2rem;
+      margin: 0 8px;
+      color: #6366f1;
+    }
+    .btn-pay {
+      background-color: #6366f1;
+      color: white;
+      font-size: 1.1rem;
+      padding: 12px;
+    }
+    .btn-pay:hover {
+      background-color: #4f46e5;
+    }
+    .amount-box {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #111827;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 576px) {
+      .payment-card {
+        padding: 20px;
+      }
+      .payment-title {
+        font-size: 1.5rem;
+      }
+      .btn-pay {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="payment-card" id="paymentForm">
+  <h2 class="payment-title text-center mb-3">Secure Payment</h2>
+
+  <!-- Amount Display -->
+  <div class="amount-box text-center">Total Amount: ₹{{ total_amount }}</div>
+
+  <!-- Payment Type -->
+  <form method="POST" action="{% url 'place_order' %}" onsubmit="showToast()">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+      <label class="form-label">Select Payment Method</label>
+      <select name="payment_method" class="form-select" onchange="toggleCardInputs(this)">
+        <option value="card">Credit / Debit Card</option>
+        <option value="upi">UPI</option>
+        <option value="wallet">Wallet</option>
+        <option value="netbanking">Net Banking</option>
+        <option value="cod">Cash on Delivery</option>
+      </select>
+    </div>
+
+    <!-- Card Inputs -->
+    <div id="cardFields">
+      <div class="card-icons text-center mb-3">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-amex"></i>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Card Number</label>
+        <input type="text" name="card_number" class="form-control" placeholder="1234 5678 9012 3456">
+      </div>
+      <div class="row">
+        <div class="col-6 mb-3">
+          <label class="form-label">Expiry</label>
+          <input type="text" name="expiry" class="form-control" placeholder="MM/YY">
+        </div>
+        <div class="col-6 mb-3">
+          <label class="form-label">CVV</label>
+          <input type="text" name="cvv" class="form-control" placeholder="123">
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-pay w-100 mt-2">Pay Now</button>
+  </form>
+</div>
+
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <div id="paymentToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">Payment Successful! Redirecting...</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const { animate } = window.framerMotion;
+
+  // Animate form on load
+  animate("#paymentForm", { opacity: [0, 1], y: [-40, 0] }, { duration: 0.8 });
+
+  // Toast on submit
+  function showToast() {
+    const toast = new bootstrap.Toast(document.getElementById("paymentToast"));
+    toast.show();
+  }
+
+  // Toggle Card Fields
+  function toggleCardInputs(select) {
+    const cardFields = document.getElementById('cardFields');
+    cardFields.style.display = (select.value === 'card') ? 'block' : 'none';
+  }
+
+  // Init
+  toggleCardInputs(document.querySelector('select[name="payment_method"]'));
+</script>
+
+</body>
+</html>
