@@ -167,3 +167,8 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')  # add these two line for de
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+if not DEBUG:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
