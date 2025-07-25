@@ -9,4 +9,3 @@ services:
         value: Food_delivery_website.settings
       - key: PYTHON_VERSION
         value: 3.11.6
-
