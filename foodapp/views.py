@@ -51,6 +51,22 @@ def register_user(request):
             return redirect('login')
     return render(request, 'register.html')
 
+# def login_user(request):
+#     if request.method == 'POST':
+#         username = request.POST['username'].strip()
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user:
+#             login(request, user)
+#             return redirect('home')
+#         else:
+#             messages.error(request, 'Invalid credentials.')
+#     return render(request, 'login.html')
+
+
+
+from django.contrib.auth.views import redirect_to_login
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username'].strip()
@@ -58,14 +74,24 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
+
+            # ✅ Redirect staff users to admin panel
+            if user.is_staff:
+                return redirect('/admin/')
+
+            # ✅ Redirect normal users
             return redirect('home')
         else:
             messages.error(request, 'Invalid credentials.')
+
     return render(request, 'login.html')
+
 
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
 
 # ----------------- Food & Cart -------------------
 
