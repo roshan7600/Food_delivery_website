@@ -506,3 +506,6 @@ def send_contact_email(request):
 
     return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
 
+
+
+

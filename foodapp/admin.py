@@ -1,15 +1,7 @@
-# from django.contrib import admin
-# from .models import Category, FoodItem, Cart, Order, OrderItem
-# admin.site.register(FoodItem)
-# admin.site.register(Category)
-# admin.site.register(Cart)
-# admin.site.register(Order)
-# admin.site.register(OrderItem)
-
-
 from django.contrib import admin
-from .models import Category, FoodItem, Cart, Address, Order, OrderItem
-from .models import ContactMessage
+from .models import Category, FoodItem, Cart, Address, Order, OrderItem, ContactMessage
+
+
 
 # ✅ Category Admin
 @admin.register(Category)
@@ -57,3 +49,14 @@ class OrderItemAdmin(admin.ModelAdmin):
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "created_at")
     search_fields = ("name", "email", "message")
+
+
+
+# Admin panel branding
+admin.site.site_header = "ClickToEat Admin"
+admin.site.site_title = "ClickToEat Admin Portal"
+admin.site.index_title = "Welcome to ClickToEat Management"
+
+
+
+
