@@ -4,10 +4,13 @@ services:
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn clicktoeat.wsgi:application
-    buildCommand: ./build.sh
 
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: clicktoeat.settings
       - key: PYTHON_VERSION
         value: 3.11.6
+
+    migrationsCommand: |
+      python manage.py makemigrations
+      python manage.py migrate

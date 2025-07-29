@@ -13,8 +13,8 @@ env/
 *.log
 *.pot
 *.pyc
-*.sqlite3
-db.sqlite3
+# *.sqlite3
+# db.sqlite3
 media/
 staticfiles/
 
@@ -43,5 +43,4 @@ gunicorn.pid
 node_modules/
 
 
-git add -f media/
-git commit -m "Include media folder for deployment"
+
