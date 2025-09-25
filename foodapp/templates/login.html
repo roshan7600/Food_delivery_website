@@ -134,10 +134,10 @@
 
   usernameInput.addEventListener('input', function() {
     const val = this.value;
-    const usernameRegex = /^[a-zA-Z0-9._]{0,15}$/;
+    const usernameRegex = /^[a-zA-Z0-9._\s]{0,15}$/;
 
     if (!usernameRegex.test(val)) {
-      this.setCustomValidity('Only letters, numbers, dots, and underscores are allowed (max 15 characters).');
+      this.setCustomValidity('Only letters, numbers, dots, underscores, and spaces are allowed (max 15 characters).');
     } else if (val.length < 3) {
       this.setCustomValidity('Username must be at least 3 characters.');
     } else {
@@ -147,7 +147,7 @@
 
   form.addEventListener('submit', function(event) {
     const usernameValue = usernameInput.value.trim();
-    const usernameRegex = /^[a-zA-Z0-9._]{3,15}$/;
+    const usernameRegex = /^[a-zA-Z0-9._\s]{3,15}$/;
 
     if (!usernameRegex.test(usernameValue)) {
       event.preventDefault();
@@ -155,3 +155,4 @@
     }
   });
 </script>
+
